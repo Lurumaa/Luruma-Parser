@@ -1,0 +1,5 @@
+Year;Length;Title;Subject;Actor;Actress;Director;Popularity;Awards;*Image
+INT;INT;STRING;CAT;CAT;CAT;CAT;INT;BOOL;STRING
+1989;126;Batman;Action;Nicholson, Jack;Basinger, Kim;Burton, Tim;14;No;JackNicholson.png
+1971;96;Carnal Knowledge;Drama;Nicholson, Jack;Bergen, Candice;Nichols, Mike;10;No;JackNicholson.png
+1991;98;Five Easy Pieces;Drama;Nicholson, Jack;Black, Karen;Rafelson, Bob;2;No;JackNicholson.png

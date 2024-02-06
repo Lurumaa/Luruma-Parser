@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies with Jack Nicholson</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        label:hover {
+            background-color: #45a049;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        canvas {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%; 
+            max-width: 1200px; 
+            margin: 200px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Фильмы с Jack Nicholson</h1>
+
+    {% if error_message %}
+        <p style="color: red; text-align: center;">{{ error_message }}</p>
+    {% endif %}
+
+    <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+        <input type="file" name="file" accept=".csv" id="fileInput" onchange="displaySelectedFileName(this)">
+        <label for="fileInput">Choose a CSV file</label>
+        <button type="button" onclick="document.getElementById('uploadForm').submit()">Upload and Process</button>
+    </form>
+
+    <canvas id="moviesChart" width="400" height="200"></canvas>
+
+    <script>
+        function displaySelectedFileName(input) {
+            var label = document.querySelector('label');
+            label.textContent = input.files[0].name;
+        }
+
+        var ctx = document.getElementById('moviesChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ titles | tojson | safe }},
+                datasets: [{
+                    label: 'Год выпуска',
+                    data: {{ years | tojson | safe }},
+                    backgroundColor: 'rgba(112, 206, 214, 0.3   )',
+                    borderColor: 'rgba(255,101,80,0.39)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: {{ years | min | safe }} - 1
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
